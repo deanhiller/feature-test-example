@@ -1,11 +1,11 @@
 package org.webpieces.app.gui;
 
-import org.webpieces.router.api.routing.AbstractRouteModule;
+import org.webpieces.router.api.routing.AbstractRoutes;
 
 import static org.webpieces.app.gui.ExamplesRouteId.MAIN_ROUTE;
 import static org.webpieces.ctx.api.HttpMethod.GET;
 
-public class GuiRouteModule extends AbstractRouteModule {
+public class GuiRoutes extends AbstractRoutes {
 
 	@Override
 	public void configure() {

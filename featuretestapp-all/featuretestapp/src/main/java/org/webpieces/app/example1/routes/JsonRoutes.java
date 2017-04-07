@@ -1,16 +1,10 @@
-package org.webpieces.app.example1;
+package org.webpieces.app.example1.routes;
 
-import org.webpieces.router.api.actions.Action;
-import org.webpieces.router.api.actions.Actions;
-import org.webpieces.router.api.routing.AbstractRouteModule;
-import org.webpieces.router.api.routing.ScopedRouteModule;
+import org.webpieces.router.api.routing.ScopedRoutes;
 
-import static org.webpieces.app.example1.JsonRouteId.INDEX;
-import static org.webpieces.app.example1.JsonRouteId.SEARCH;
 import static org.webpieces.ctx.api.HttpMethod.GET;
 
-public class JsonRoutes extends ScopedRouteModule {
-//public class JsonRoutes extends AbstractRouteModule {
+public class JsonRoutes extends ScopedRoutes {
   @Override
   protected String getScope() {
     return "/json";
@@ -46,10 +40,8 @@ public class JsonRoutes extends ScopedRouteModule {
 //    at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
 //    at java.lang.Thread.run(Thread.java:745)
 
-    addRoute(GET, "/", "JsonController.index", INDEX);
-    addRoute(GET, "/search", "JsonController.search", SEARCH);
-
-//    setPageNotFoundRoute("JsonController.notFound");
-//    setInternalErrorRoute("JsonController.internalError");
+//    addRoute(GET, "", "JsonController.index", ROOT);
+    addRoute(GET, "/", "JsonController.index", JsonRouteId.INDEX);
+    addRoute(GET, "/search", "JsonController.search", JsonRouteId.SEARCH);
   }
 }

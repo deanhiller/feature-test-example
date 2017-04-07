@@ -1,4 +1,4 @@
-package org.webpieces.app.example1;
+package org.webpieces.app.example1.filters;
 
 import java.util.concurrent.CompletableFuture;
 import javax.inject.Singleton;
@@ -8,9 +8,6 @@ import org.webpieces.router.api.dto.MethodMeta;
 import org.webpieces.router.api.routing.RouteFilter;
 import org.webpieces.util.filters.Service;
 
-/**
- * Created by pstover on 4/6/17.
- */
 @Singleton
 public class JsonAuthFilter extends RouteFilter<Void> {
   @Override
@@ -20,6 +17,7 @@ public class JsonAuthFilter extends RouteFilter<Void> {
 
   @Override
   public CompletableFuture<Action> filter(MethodMeta meta, Service<MethodMeta, Action> nextFilter) {
+//    throw new AuthenticationException("Bad credentials!");
     return nextFilter.invoke(meta);
   }
 }

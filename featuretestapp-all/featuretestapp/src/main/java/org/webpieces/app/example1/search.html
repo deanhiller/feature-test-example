@@ -1,22 +1,13 @@
-<html>
-<body>
-  <marquee>Searching...</marquee>
-  <p>
-  #{if tweets}#
-    Here are your tweets: ${tweets}$
-  #{/if}#
-  #{else}#
-    No tweets found!
-  #{/else}#
-  </p>
+#{if tweets}#
+  Here are your tweets: ${tweets}$
+#{/if}#
+#{else}#
+  No tweets found!
+#{/else}#
 
-  <p>
-  #{if users}#
-    Here are your users: ${users}$
-  #{/if}#
-  #{else}#
-    No users found!
-  #{/else}#
-  </p>
-</body>
-</html>
+#{if users}#
+  Here are your users: ${users}$
+#{/if}#
+#{else}#
+  No users found!
+#{/else}#

@@ -3,15 +3,14 @@ package org.webpieces.app.meta;
 import java.util.List;
 import java.util.Map;
 
-import org.webpieces.plugins.hsqldb.H2DbPlugin;
-import org.webpieces.router.api.routing.Plugin;
-import org.webpieces.router.api.routing.RouteModule;
-import org.webpieces.router.api.routing.WebAppMeta;
-
 import com.google.common.collect.Lists;
 import com.google.inject.Module;
 
 import org.webpieces.app.base.FeatureTestAppMeta;
+import org.webpieces.plugins.hsqldb.H2DbPlugin;
+import org.webpieces.router.api.routing.Plugin;
+import org.webpieces.router.api.routing.Routes;
+import org.webpieces.router.api.routing.WebAppMeta;
 
 public class DeveloperMeta implements WebAppMeta {
 
@@ -28,7 +27,7 @@ public class DeveloperMeta implements WebAppMeta {
 	}
 
 	@Override
-	public List<RouteModule> getRouteModules() {
+	public List<Routes> getRouteModules() {
 		return prodMeta.getRouteModules();
 	}
 

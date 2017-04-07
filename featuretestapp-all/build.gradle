@@ -7,7 +7,7 @@ ext {
 
     //Modify here AND gradle webieces plugin version in file 
     // featuretestapp/build.gradle
-    webpiecesVersion = '1.9.63'
+    webpiecesVersion = '1.9.64'
 
     /*
      * Dependencies can be named so that sub-projects can reference consistent version of them.

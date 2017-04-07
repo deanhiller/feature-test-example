@@ -1,22 +1,16 @@
 package org.webpieces.app.base;
 
-import org.webpieces.app.client.RemoteTweetSearchService;
-import org.webpieces.app.example1.Hydrator;
-import org.webpieces.app.example1.HydratorImpl;
-import org.webpieces.app.example1.TweetIdSearch;
-import org.webpieces.app.example1.TweetIdSearchImpl;
-import org.webpieces.app.example1.UserSearch;
-import org.webpieces.app.example1.UserSearchImpl;
-import org.webpieces.app.example1.client.RemoteHydratorService;
-import org.webpieces.app.example1.client.RemoteUserSearchService;
-import org.webpieces.app.example1.mock.MockHydratorService;
-import org.webpieces.app.example1.mock.MockTweetSearchService;
-import org.webpieces.app.example1.mock.MockUserSearchService;
-import org.webpieces.router.api.Startable;
-
 import com.google.inject.Binder;
 import com.google.inject.Module;
 import com.google.inject.multibindings.Multibinder;
+
+import org.webpieces.app.example1.remoteclients.HydratorService;
+import org.webpieces.app.example1.remoteclients.TweetSearchService;
+import org.webpieces.app.example1.remoteclients.UserSearchService;
+import org.webpieces.app.example1.remoteclients.impl.HydratorServiceImpl;
+import org.webpieces.app.example1.remoteclients.impl.TweetSearchServiceImpl;
+import org.webpieces.app.example1.remoteclients.impl.UserSearchServiceImpl;
+import org.webpieces.router.api.Startable;
 
 public class GuiceModule implements Module {
 
@@ -31,12 +25,10 @@ public class GuiceModule implements Module {
     Multibinder<Startable> uriBinder = Multibinder.newSetBinder(binder, Startable.class);
     uriBinder.addBinding().to(PopulateDatabase.class);
 
-    binder.bind(UserSearch.class).to(UserSearchImpl.class);
-    binder.bind(TweetIdSearch.class).to(TweetIdSearchImpl.class);
-    binder.bind(Hydrator.class).to(HydratorImpl.class);
+    binder.bind(TweetSearchService.class).to(TweetSearchServiceImpl.class);
 
-    binder.bind(RemoteTweetSearchService.class).to(MockTweetSearchService.class);
-    binder.bind(RemoteHydratorService.class).to(MockHydratorService.class);
-    binder.bind(RemoteUserSearchService.class).to(MockUserSearchService.class);
+    binder.bind(HydratorService.class).to(HydratorServiceImpl.class);
+
+    binder.bind(UserSearchService.class).to(UserSearchServiceImpl.class);
   }
 }

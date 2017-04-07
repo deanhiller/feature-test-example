@@ -1,18 +1,12 @@
 package org.webpieces.app.example1.model;
 
 public class Tweet {
-  private String id;
   private String fromUser;
   private String text;
 
-  public Tweet(String id, String fromUser, String text) {
-    this.id = id;
+  public Tweet(String fromUser, String text) {
     this.fromUser = fromUser;
     this.text = text;
-  }
-
-  public String getId() {
-    return id;
   }
 
   public String getFromUser() {
@@ -26,8 +20,7 @@ public class Tweet {
   @Override
   public String toString() {
     return "Tweet{" +
-        "id='" + id + '\'' +
-        ", fromUser='" + fromUser + '\'' +
+        "fromUser='" + fromUser + '\'' +
         ", text='" + text + '\'' +
         '}';
   }

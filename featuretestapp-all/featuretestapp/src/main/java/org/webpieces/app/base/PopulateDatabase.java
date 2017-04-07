@@ -1,17 +1,16 @@
 package org.webpieces.app.base;
 
 import java.util.List;
-
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 
+import org.webpieces.app.example1.model.db.TweetDbo;
+import org.webpieces.app.example1.model.db.UserDbo;
 import org.webpieces.router.api.Startable;
 import org.webpieces.util.logging.Logger;
 import org.webpieces.util.logging.LoggerFactory;
-
-import org.webpieces.app.base.libs.UserDbo;
 
 public class PopulateDatabase implements Startable {
 
@@ -30,33 +29,49 @@ public class PopulateDatabase implements Startable {
 
 	private void createSomeData() {
 		EntityManager mgr = factory.createEntityManager();
-		List<UserDbo> users = UserDbo.findAll(mgr);
-		if(users.size() > 0)
+
+		if(UserDbo.findAll(mgr).size() > 0 || TweetDbo.findAll(mgr).size() > 0)
 			return; //This database has users, exit immediately to not screw up existing data 
-		
+
 		EntityTransaction tx = mgr.getTransaction();
 		tx.begin();
 
-		UserDbo user1 = new UserDbo();
-		user1.setEmail("dean@somewhere.com");
-		user1.setName("SomeName");
-		user1.setFirstName("Dean");
-		user1.setLastName("Hill");
+		populateUsers(mgr);
+		populateTweets(mgr);
 
-		UserDbo user2 = new UserDbo();
-		user2.setEmail("bob@somewhere.com");
-		user2.setName("Bob'sName");
-		user2.setFirstName("Bob");
-		user2.setLastName("LastBob");
-		
-		log.info("classloader="+user1.getClass().getClassLoader());
-		
-		mgr.persist(user1);
-		mgr.persist(user2);
-
-		mgr.flush();
-		
 		tx.commit();
 	}
 
+	private void populateTweets(EntityManager mgr) {
+		mgr.persist(createTweet("pstover", "just setting up my twttr"));
+		mgr.persist(createTweet("dhiller", "testing"));
+
+		mgr.flush();
+	}
+
+	private void populateUsers(EntityManager mgr) {
+		mgr.persist(createUser("dean@somewhere.com", "dhiller", "Dean", "Hiller"));
+		mgr.persist(createUser("patrick@somewhere.com", "pstover", "Patrick", "Stover"));
+
+		mgr.flush();
+	}
+
+	private Object createUser(String email, String username, String firstName, String lastName) {
+		UserDbo user = new UserDbo();
+
+		user.setEmail(email);
+		user.setName(username);
+		user.setFirstName(firstName);
+		user.setLastName(lastName);
+
+		return user;
+	}
+
+	private TweetDbo createTweet(String fromUser, String text) {
+		TweetDbo tweet = new TweetDbo();
+		tweet.setFromUser(fromUser);
+		tweet.setText(text);
+
+		return tweet;
+	}
 }

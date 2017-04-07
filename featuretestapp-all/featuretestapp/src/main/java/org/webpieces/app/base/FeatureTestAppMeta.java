@@ -6,11 +6,12 @@ import java.util.Map;
 import com.google.common.collect.Lists;
 import com.google.inject.Module;
 
-import org.webpieces.app.example1.BasicRoutes;
-import org.webpieces.app.example1.JsonRoutes;
+import org.webpieces.app.example1.filters.JsonFilterRoutes;
+import org.webpieces.app.example1.routes.JsonRoutes;
+import org.webpieces.app.gui.GuiRoutes;
 import org.webpieces.plugins.hibernate.HibernatePlugin;
 import org.webpieces.router.api.routing.Plugin;
-import org.webpieces.router.api.routing.RouteModule;
+import org.webpieces.router.api.routing.Routes;
 import org.webpieces.router.api.routing.WebAppMeta;
 import org.webpieces.util.logging.Logger;
 import org.webpieces.util.logging.LoggerFactory;
@@ -42,9 +43,10 @@ public class FeatureTestAppMeta implements WebAppMeta {
   }
 
   @Override
-  public List<RouteModule> getRouteModules() {
+  public List<Routes> getRouteModules() {
     return Lists.newArrayList(
-        new BasicRoutes(),
+        new GuiRoutes(),
+        new JsonFilterRoutes(),
         new JsonRoutes()
     );
   }
