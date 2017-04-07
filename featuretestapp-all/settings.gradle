@@ -1,0 +1,2 @@
+include 'featuretestapp'
+include 'featuretestapp-dev'
