@@ -19,7 +19,7 @@ public class WebSSLFactory implements SSLEngineFactory {
 		//since this bites a lot of people, let's read in the keystor early
 		try(InputStream keySt = WebSSLFactory.class.getResourceAsStream(serverKeystore)) {
 			if(keySt == null)
-				throw new IllegalStateException("keystore was not found");
+				throw new IllegalStateException("keystore was not found="+serverKeystore);
 		} catch(IOException e) {
 			throw new RuntimeException(e);
 		}

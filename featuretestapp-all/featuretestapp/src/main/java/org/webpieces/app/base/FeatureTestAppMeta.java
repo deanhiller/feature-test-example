@@ -6,10 +6,11 @@ import java.util.Map;
 import com.google.common.collect.Lists;
 import com.google.inject.Module;
 
-import org.webpieces.app.example1.filters.JsonFilterRoutes;
+import org.webpieces.app.example1.filters.JsonCatchAllFilter;
 import org.webpieces.app.example1.routes.JsonRoutes;
 import org.webpieces.app.gui.GuiRoutes;
 import org.webpieces.plugins.hibernate.HibernatePlugin;
+import org.webpieces.plugins.json.JacksonPlugin;
 import org.webpieces.router.api.routing.Plugin;
 import org.webpieces.router.api.routing.Routes;
 import org.webpieces.router.api.routing.WebAppMeta;
@@ -46,7 +47,6 @@ public class FeatureTestAppMeta implements WebAppMeta {
   public List<Routes> getRouteModules() {
     return Lists.newArrayList(
         new GuiRoutes(),
-        new JsonFilterRoutes(),
         new JsonRoutes()
     );
   }
@@ -58,6 +58,7 @@ public class FeatureTestAppMeta implements WebAppMeta {
         //if you want to remove hibernate, just remove it first from the build file and then remove
         //all the compile error code(it will remove more than half of the jar size of the web app actually due
         //to transitive dependencies)
+        new JacksonPlugin("/json.*", JsonCatchAllFilter.class),
         new HibernatePlugin(persistenceUnit)
     );
   }

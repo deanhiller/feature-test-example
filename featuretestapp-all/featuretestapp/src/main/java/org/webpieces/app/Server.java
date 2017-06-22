@@ -10,7 +10,6 @@ import java.util.Base64;
 
 import com.google.inject.Module;
 
-import org.webpieces.httpcommon.api.RequestListener;
 import org.webpieces.nio.api.channels.TCPServerChannel;
 import org.webpieces.router.api.PortConfig;
 import org.webpieces.router.api.RouterConfig;
@@ -222,8 +221,8 @@ public class Server {
 		//channel.socket().setReceiveBufferSize(size);
 	}
 	
-	public RequestListener start() {
-		return webServer.start();	
+	public void start() {
+		webServer.start2();
 	}
 
 	public void stop() {

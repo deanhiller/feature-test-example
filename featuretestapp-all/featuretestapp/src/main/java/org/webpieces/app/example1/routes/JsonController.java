@@ -13,6 +13,7 @@ import org.webpieces.app.example1.model.User;
 import org.webpieces.ctx.api.Current;
 import org.webpieces.httpparser.api.common.KnownHeaderName;
 import org.webpieces.httpparser.api.dto.HttpResponse;
+import org.webpieces.plugins.json.Jackson;
 import org.webpieces.router.api.actions.Action;
 import org.webpieces.router.api.actions.Actions;
 
@@ -28,13 +29,15 @@ public class JsonController {
   private Hydrator hydrator;
 
 
-  public Action index() {
-    return Actions.renderView("jsonIndex.html");
+  @Jackson
+  public SearchResponse index() {
+//    return Actions.renderView("jsonIndex.html");
+    return new SearchResponse(null, null);
   }
 
-  public Action search(String queryString) {
-    Current.addModifyResponse((r)->modify(r));
-    List<Integer> tweetIds = tweetIdSearch.query(queryString);
+  public SearchResponse search(@Jackson SearchRequest request) {
+//    Current.addModifyResponse((r)->modify(r));
+    List<Integer> tweetIds = tweetIdSearch.query(request.getQuery());
 
     List<Tweet> tweets = tweetIds.stream()
         .map(tweetId -> hydrator.hydrate(tweetId))
@@ -46,12 +49,12 @@ public class JsonController {
         .map(userSearch::lookup)
         .collect(Collectors.toList());
 
-    return Actions.renderThis("tweets", tweets, "users", users);
+    return new SearchResponse(tweets, users); //Actions.renderThis("tweets", tweets, "users", users);
   }
 
-  private HttpResponse modify(HttpResponse r) {
-    r.getHeaderLookupStruct().getHeader(KnownHeaderName.CONTENT_TYPE).setValue("application/json");
-
-    return r;
-  }
+//  private HttpResponse modify(HttpResponse r) {
+//    r.getHeaderLookupStruct().getHeader(KnownHeaderName.CONTENT_TYPE).setValue("application/json");
+//
+//    return r;
+//  }
 }

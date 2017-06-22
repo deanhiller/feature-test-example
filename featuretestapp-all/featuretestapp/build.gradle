@@ -7,7 +7,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'org.webpieces:gradle-plugin-htmlcompiler:1.9.63'
+        classpath 'org.webpieces:gradle-plugin-htmlcompiler:1.9.73'
     }
 }
 
@@ -45,10 +45,11 @@ dependencies {
     compile deps['web-webserver']
     //optional plugin for if you use hibernate
     compile deps['plugin-hibernate']
+    compile deps['plugin-jackson']
     //REMOVE once you are on a real database
     compile deps['h2db']
 
-    compile deps['jackson']
+    compile deps['commons-lang']
 
     //IF you add dependencies on other projects locally, you need to modify FeatureTestAppDevServer.java to include those
     //SOURCE paths(ie. *.java file paths not *.class files)) or it will not recompile that code as it changes
