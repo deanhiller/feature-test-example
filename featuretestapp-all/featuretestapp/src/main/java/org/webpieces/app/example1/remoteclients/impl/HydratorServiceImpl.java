@@ -1,8 +1,8 @@
 package org.webpieces.app.example1.remoteclients.impl;
 
-import org.webpieces.app.example1.remoteclients.HydratorService;
 import org.webpieces.app.example1.model.Tweet;
 import org.webpieces.app.example1.model.db.TweetDbo;
+import org.webpieces.app.example1.remoteclients.HydratorService;
 import org.webpieces.plugins.hibernate.Em;
 
 public class HydratorServiceImpl implements HydratorService {

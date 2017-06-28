@@ -8,8 +8,6 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
-import com.google.inject.Module;
-
 import org.webpieces.nio.api.channels.TCPServerChannel;
 import org.webpieces.router.api.PortConfig;
 import org.webpieces.router.api.RouterConfig;
@@ -22,6 +20,8 @@ import org.webpieces.util.security.SecretKeyInfo;
 import org.webpieces.webserver.api.WebServer;
 import org.webpieces.webserver.api.WebServerConfig;
 import org.webpieces.webserver.api.WebServerFactory;
+
+import com.google.inject.Module;
 
 /**
  * Changes to any class in this package (or any classes these classes reference) WILL require a 
@@ -222,7 +222,7 @@ public class Server {
 	}
 	
 	public void start() {
-		webServer.start2();
+		webServer.startSync();
 	}
 
 	public void stop() {

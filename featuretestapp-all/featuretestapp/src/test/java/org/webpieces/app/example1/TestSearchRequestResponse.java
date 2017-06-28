@@ -1,11 +1,9 @@
 package org.webpieces.app.example1;
 
-import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
 
-import com.google.inject.Binder;
-import com.google.inject.Module;
-
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.webpieces.app.Server;
@@ -17,10 +15,12 @@ import org.webpieces.app.mock.MockHydratorService;
 import org.webpieces.app.mock.MockRemoteSystem;
 import org.webpieces.app.mock.MockTweetSearchService;
 import org.webpieces.app.mock.MockUserSearchService;
+import org.webpieces.data.api.DataWrapper;
 import org.webpieces.data.api.DataWrapperGenerator;
 import org.webpieces.data.api.DataWrapperGeneratorFactory;
-import org.webpieces.httpcommon.api.RequestId;
-import org.webpieces.httpcommon.api.RequestListener;
+import org.webpieces.httpclient11.api.HttpFullRequest;
+import org.webpieces.httpclient11.api.HttpFullResponse;
+import org.webpieces.httpclient11.api.HttpSocket;
 import org.webpieces.httpparser.api.common.Header;
 import org.webpieces.httpparser.api.common.KnownHeaderName;
 import org.webpieces.httpparser.api.dto.HttpRequest;
@@ -33,9 +33,11 @@ import org.webpieces.util.logging.Logger;
 import org.webpieces.util.logging.LoggerFactory;
 import org.webpieces.webserver.test.AbstractWebpiecesTest;
 import org.webpieces.webserver.test.Asserts;
-import org.webpieces.webserver.test.FullResponse;
-import org.webpieces.webserver.test.Http11Socket;
-import org.webpieces.webserver.test.PlatformOverridesForTest;
+import org.webpieces.webserver.test.ResponseExtract;
+import org.webpieces.webserver.test.ResponseWrapper;
+
+import com.google.inject.Binder;
+import com.google.inject.Module;
 
 /**
  * These are working examples of tests that sometimes are better done with the BasicSeleniumTest example but are here for completeness
@@ -53,10 +55,10 @@ public class TestSearchRequestResponse extends AbstractWebpiecesTest {
   private static String pUnit = HibernatePlugin.PERSISTENCE_TEST_UNIT;
 
   private static final DataWrapperGenerator gen = DataWrapperGeneratorFactory.createDataWrapperGenerator();
-  private Http11Socket http11Socket;
+  private HttpSocket http11Socket;
 
   @Before
-  public void setUp() throws InterruptedException, ClassNotFoundException {
+  public void setUp() throws InterruptedException, ClassNotFoundException, ExecutionException, TimeoutException {
     log.info("Setting up test");
     Asserts.assertWasCompiledWithParamNames("test");
 
@@ -64,9 +66,9 @@ public class TestSearchRequestResponse extends AbstractWebpiecesTest {
     //mocks after every test AND you can no longer run single threaded(tradeoffs, tradeoffs)
     //This is however pretty fast to do in many systems...
     Server webserver = new Server(
-        platformOverrides, new AppOverridesModule(), new ServerConfig(pUnit));
+        getOverrides(false), new AppOverridesModule(), new ServerConfig(pUnit));
     webserver.start();
-    http11Socket = http11Simulator.openHttp();
+    http11Socket = connectHttp(false, null);
   }
 
   /**
@@ -74,26 +76,17 @@ public class TestSearchRequestResponse extends AbstractWebpiecesTest {
    */
   @Test
   public void testBasicSearch() {
-    HttpRequest req = createJsonRequest("/json/search", "{ `query`: `asdf`, `maxResults`: 4 }"
+    HttpFullRequest req = createJsonRequest("/json/search", "{ `query`: `asdf`, `maxResults`: 4 }"
         .replace('`', '\"'));
 
-    http11Socket.send(req);
+    CompletableFuture<HttpFullResponse> respFuture = http11Socket.send(req);
 
-    FullResponse httpPayload = fetchSingleResponse();
+    ResponseWrapper resp = ResponseExtract.waitResponseAndWrap(respFuture);
 
-    httpPayload.assertStatusCode(KnownStatusCode.HTTP_200_OK);
-    httpPayload.assertContentType("application/json");
+    resp.assertStatusCode(KnownStatusCode.HTTP_200_OK);
+    resp.assertContentType("application/json");
 
-    System.out.println(httpPayload);
-  }
-
-  private FullResponse fetchSingleResponse() {
-    List<FullResponse> responses = http11Socket.getResponses();
-    Assert.assertEquals(1, responses.size());
-
-    FullResponse httpPayload = responses.get(0);
-    responses.clear();
-    return httpPayload;
+    System.out.println(resp);
   }
 
   static HttpRequest createRequest(String uri) {
@@ -106,12 +99,14 @@ public class TestSearchRequestResponse extends AbstractWebpiecesTest {
     return req;
   }
 
-  static HttpRequest createJsonRequest(String uri, String body) {
+  static HttpFullRequest createJsonRequest(String uri, String body) {
+	DataWrapper dataWrapper = gen.wrapByteArray(body.getBytes());
     HttpRequest request = createRequest(uri);
-    request.setBody(gen.wrapByteArray(body.getBytes()));
     request.addHeader(new Header(KnownHeaderName.ACCEPT,"application/json"));
+    request.addHeader(new Header(KnownHeaderName.CONTENT_LENGTH, dataWrapper.getReadableSize()+""));
 
-    return request;
+    HttpFullRequest fullReq = new HttpFullRequest(request, dataWrapper);
+    return fullReq;
   }
 
   private class AppOverridesModule implements Module {

@@ -1,6 +1,5 @@
 package org.webpieces.app.base;
 
-import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

@@ -1,6 +1,7 @@
 package org.webpieces.app.example1.model.db;
 
 import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.GeneratedValue;

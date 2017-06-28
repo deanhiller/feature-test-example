@@ -1,9 +1,9 @@
 package org.webpieces.app.gui;
 
-import org.webpieces.router.api.routing.AbstractRoutes;
-
 import static org.webpieces.app.gui.ExamplesRouteId.MAIN_ROUTE;
 import static org.webpieces.ctx.api.HttpMethod.GET;
+
+import org.webpieces.router.api.routing.AbstractRoutes;
 
 public class GuiRoutes extends AbstractRoutes {
 

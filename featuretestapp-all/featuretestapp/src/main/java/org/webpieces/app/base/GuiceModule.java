@@ -1,9 +1,5 @@
 package org.webpieces.app.base;
 
-import com.google.inject.Binder;
-import com.google.inject.Module;
-import com.google.inject.multibindings.Multibinder;
-
 import org.webpieces.app.example1.remoteclients.HydratorService;
 import org.webpieces.app.example1.remoteclients.TweetSearchService;
 import org.webpieces.app.example1.remoteclients.UserSearchService;
@@ -11,6 +7,10 @@ import org.webpieces.app.example1.remoteclients.impl.HydratorServiceImpl;
 import org.webpieces.app.example1.remoteclients.impl.TweetSearchServiceImpl;
 import org.webpieces.app.example1.remoteclients.impl.UserSearchServiceImpl;
 import org.webpieces.router.api.Startable;
+
+import com.google.inject.Binder;
+import com.google.inject.Module;
+import com.google.inject.multibindings.Multibinder;
 
 public class GuiceModule implements Module {
 

@@ -3,9 +3,6 @@ package org.webpieces.app.base;
 import java.util.List;
 import java.util.Map;
 
-import com.google.common.collect.Lists;
-import com.google.inject.Module;
-
 import org.webpieces.app.example1.filters.JsonCatchAllFilter;
 import org.webpieces.app.example1.routes.JsonRoutes;
 import org.webpieces.app.gui.GuiRoutes;
@@ -16,6 +13,9 @@ import org.webpieces.router.api.routing.Routes;
 import org.webpieces.router.api.routing.WebAppMeta;
 import org.webpieces.util.logging.Logger;
 import org.webpieces.util.logging.LoggerFactory;
+
+import com.google.common.collect.Lists;
+import com.google.inject.Module;
 
 //This is where the list of Guice Modules go as well as the list of RouterModules which is the
 //core of anything you want to plugin to your web app.  To make re-usable components, you create

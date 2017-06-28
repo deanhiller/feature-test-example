@@ -2,6 +2,7 @@ package org.webpieces.app.example1.routes;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -10,12 +11,7 @@ import org.webpieces.app.example1.business.TweetIdSearch;
 import org.webpieces.app.example1.business.UserSearch;
 import org.webpieces.app.example1.model.Tweet;
 import org.webpieces.app.example1.model.User;
-import org.webpieces.ctx.api.Current;
-import org.webpieces.httpparser.api.common.KnownHeaderName;
-import org.webpieces.httpparser.api.dto.HttpResponse;
 import org.webpieces.plugins.json.Jackson;
-import org.webpieces.router.api.actions.Action;
-import org.webpieces.router.api.actions.Actions;
 
 @Singleton
 public class JsonController {

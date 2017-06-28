@@ -1,8 +1,8 @@
 package org.webpieces.app.example1.routes;
 
-import org.webpieces.router.api.routing.ScopedRoutes;
-
 import static org.webpieces.ctx.api.HttpMethod.GET;
+
+import org.webpieces.router.api.routing.ScopedRoutes;
 
 public class JsonRoutes extends ScopedRoutes {
   @Override

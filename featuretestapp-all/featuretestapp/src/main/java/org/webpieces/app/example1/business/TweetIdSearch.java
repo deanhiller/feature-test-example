@@ -1,6 +1,7 @@
 package org.webpieces.app.example1.business;
 
 import java.util.List;
+
 import javax.inject.Inject;
 
 import org.webpieces.app.example1.remoteclients.TweetSearchService;
